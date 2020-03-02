@@ -14,6 +14,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="32dp"
         android:clickable="false"
+        app:backgroundTint="#78E6F5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:srcCompat="@android:drawable/ic_menu_add" />
