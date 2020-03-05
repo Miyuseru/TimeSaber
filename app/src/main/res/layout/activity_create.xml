@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/titleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_stroke"
@@ -34,7 +34,7 @@
             android:textSize="30sp" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/deadlineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_stroke"
@@ -57,7 +57,7 @@
             android:textSize="30sp" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/contentText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/textview_stroke"
