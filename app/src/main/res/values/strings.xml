@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">TimeSaber</string>
+
+    <string-array name="list">
+        <item>１</item>
+        <item>２</item>
+        <item>３</item>
+        <item>４</item>
+        <item>５</item>
+    </string-array>
+
 </resources>
