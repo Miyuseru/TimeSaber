@@ -1,43 +1,49 @@
 package app.miyuseru.timesaber
 
-import android.content.Context
-import android.view.View
-import android.widget.AdapterView
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import io.realm.OrderedRealmCollection
-import io.realm.RealmRecyclerViewAdapter
+import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import io.realm.Realm
 
 
-class TaskAdapter(
-
-    private val context: Context,
-    private var taskList: OrderedRealmCollection<Task>?,
-    private var listener: AdapterView.OnItemClickListener,
-    private val autoUpdate: Boolean
-
-) :
-
-
-    RealmRecyclerViewAdapter<Task, TaskAdapter.TaskViewHolder>(taskList, autoUpdate) {
-//    override fun getItemCount(): Int = taskList?.size ?: 0
-
-
-//    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-//        val task: Task = taskList?.get(position) ?: return
+private val realm: Realm by lazy {
+    Realm.getDefaultInstance()
+}
 //
-////        holder.container.setOnClickListener {
-////            listener.onItemClick(task)
-////        }
+//class TaskAdapter(
 //
-//        holder.TitleTextView.text = task.Todo
-//    }
+////    private val context: Context,
+////    private var taskList: OrderedRealmCollection<Task>?,
+////    private var listener: AdapterView.OnItemClickListener,
+////    private val autoUpdate: Boolean
+//
+//) :
 
 
-    class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val contentTextView: LinearLayout = view.content
-        val TitleTextView: TextView = view.Todo
+class TaskAdaptar : AppCompatActivity() {
+
+    private var task: Task? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_task)
+
+        Log.d("onCreate:", "OK")
+
+        task = realm
+            .where(Task::class.java)
+            .equalTo("Title", intent.getStringExtra("Title"))
+            .findFirst()
+
+        showData()
+    }
+
+
+    private fun showData() {
+        task?.let {
+//            titleTextView.text = it.Todo
+//            contentTextView.text = it.content
+        }
     }
 
 }

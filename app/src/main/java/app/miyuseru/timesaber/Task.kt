@@ -9,7 +9,7 @@ open class Task(
     @PrimaryKey
 
     open var id: String = UUID.randomUUID().toString(),
-    open var Todo: String = "",
+    open var Title: String = "",
     open var content: String = "",
     open var deadline: String = "",
     open var level: String = "",

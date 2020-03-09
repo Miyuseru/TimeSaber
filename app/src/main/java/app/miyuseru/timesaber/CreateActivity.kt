@@ -69,11 +69,11 @@ class CreateActivity : AppCompatActivity() {
 
     }
 
-    fun create(todo: String, content: String, deadline: String) {
+    fun create(title: String, content: String, deadline: String) {
 
         realm.executeTransaction {
             val task = it.createObject(Task::class.java, UUID.randomUUID().toString())
-            task.Todo = todo
+            task.Title = title
             task.content = content
             task.deadline = deadline
             // task.level = level

@@ -17,21 +17,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-
-
         button.setOnClickListener {
             startActivity(Intent(applicationContext, CreateActivity::class.java))
         }
 
 
-
-
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val date = "$year/$month/$dayOfMonth"
 
+            //アイテムを見つける
+            val item
+
             val preview = Intent(applicationContext, TaskActivity::class.java)
-//            preview.putExtra("Title",item.Todo)
-//           preview.putExtra("content",item.Todo)
+            preview.putExtra("Title", item.Todo)
+            preview.putExtra("content", item.Todo)
             startActivity(preview)
 //            Log.d("click", "click")
 
