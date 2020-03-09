@@ -44,12 +44,12 @@ class MainActivity : AppCompatActivity() {
 
 //            val item = date.equals(Task::deadline)
 
-//            val preview = Intent(applicationContext, TaskActivity::class.java)
+            val preview = Intent(applicationContext, TaskActivity::class.java)
 //
 //            //itemの
 //            preview.putExtra("Title", date)
 //            preview.putExtra("content", date)
-//            startActivity(preview)
+            startActivity(preview)
 //            Log.d("click", "click")
         }
     }
