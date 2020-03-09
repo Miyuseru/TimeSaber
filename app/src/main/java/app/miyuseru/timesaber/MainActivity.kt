@@ -25,12 +25,14 @@ class MainActivity : AppCompatActivity() {
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val date = "$year/$month/$dayOfMonth"
 
-            //アイテムを見つける
-            val item
+            //アイテムを見つける item→dete=deadline
+            val item = date.equals(Task::deadline)
 
             val preview = Intent(applicationContext, TaskActivity::class.java)
-            preview.putExtra("Title", item.Todo)
-            preview.putExtra("content", item.Todo)
+
+            //itemの
+            preview.putExtra("Title", date)
+            preview.putExtra("content", date)
             startActivity(preview)
 //            Log.d("click", "click")
 
