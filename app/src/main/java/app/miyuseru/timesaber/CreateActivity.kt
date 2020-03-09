@@ -12,7 +12,6 @@ import java.util.*
 
 class CreateActivity : AppCompatActivity() {
 
-
     val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
@@ -28,11 +27,15 @@ class CreateActivity : AppCompatActivity() {
             this@CreateActivity,
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
 
-                val dateString = mYear.toString() + "/" + String.format(
+                mYear = year
+                mMonth = monthOfYear
+                mDay = dayOfMonth
+
+                val dateString = "$mYear/" + String.format(
                     "%02d",
                     mMonth + 1
                 ) + "/" + String.format("%02d", mDay)
-                dateButton.setText(dateString)
+                dateButton.text = dateString
             }, mYear, mMonth, mDay
         )
         datePickerDialog.show()
@@ -50,26 +53,18 @@ class CreateActivity : AppCompatActivity() {
         mMonth = calendar.get(Calendar.MONTH)
         mDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-
-
-
-
         createButton.setOnClickListener() {
             startActivity(Intent(this, MainActivity::class.java))
             create(
                 titleText.text.toString(),
                 contentText.text.toString(),
                 dateButton.text.toString()
-
                 //levelSpinner.text
             )
-
-
         }
-
     }
 
-    fun create(title: String, content: String, deadline: String) {
+    private fun create(title: String, content: String, deadline: String) {
 
         realm.executeTransaction {
             val task = it.createObject(Task::class.java, UUID.randomUUID().toString())
@@ -79,7 +74,7 @@ class CreateActivity : AppCompatActivity() {
             // task.level = level
 
         }
-        Log.d("todo", content)
+        Log.d("deadline", deadline)
     }
 }
 
