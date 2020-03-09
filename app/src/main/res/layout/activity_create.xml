@@ -34,7 +34,7 @@
             android:textSize="30sp" />
 
         <Button
-            android:id="@+id/dateButton"
+            android:id="@+id/deadlineButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_stroke"

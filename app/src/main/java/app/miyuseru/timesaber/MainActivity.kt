@@ -26,7 +26,13 @@ class MainActivity : AppCompatActivity() {
 
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
 
-            val date = "$year/${month + 1}/$dayOfMonth"
+            val date =
+                "$year/" + String.format(
+                    "%02d",
+                    month + 1
+                ) + "/" + String.format("%02d", dayOfMonth)
+//                "$year/${month + 1}/$dayOfMonth"
+            // 2019/07/08
 
             Log.d("date", date)
 
@@ -41,14 +47,26 @@ class MainActivity : AppCompatActivity() {
             task?.let {
                 Log.d("task", it.deadline)
             }
+            Log.d("task content", task.toString())
 
 //            val item = date.equals(Task::deadline)
 
             val preview = Intent(applicationContext, TaskActivity::class.java)
 //
 //            //itemの
-//            preview.putExtra("Title", date)
-//            preview.putExtra("content", date)
+            if (task != null) {
+                preview.putExtra("Title", task.Title)
+            }
+            if (task != null) {
+                preview.putExtra("content", task.content)
+            }
+            if (task != null) {
+                preview.putExtra("deadline", task.deadline)
+            }
+            if (task != null) {
+                preview.putExtra("level", task.level)
+            }
+
             startActivity(preview)
 //            Log.d("click", "click")
         }

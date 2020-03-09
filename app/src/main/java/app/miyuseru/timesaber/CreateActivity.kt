@@ -35,7 +35,7 @@ class CreateActivity : AppCompatActivity() {
                     "%02d",
                     mMonth + 1
                 ) + "/" + String.format("%02d", mDay)
-                dateButton.text = dateString
+                deadlineButton.text = dateString
             }, mYear, mMonth, mDay
         )
         datePickerDialog.show()
@@ -46,7 +46,7 @@ class CreateActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create)
 
 
-        dateButton.setOnClickListener(mOnDateClickListener)
+        deadlineButton.setOnClickListener(mOnDateClickListener)
 
         val calendar = Calendar.getInstance()
         mYear = calendar.get(Calendar.YEAR)
@@ -58,25 +58,26 @@ class CreateActivity : AppCompatActivity() {
             create(
                 titleText.text.toString(),
                 contentText.text.toString(),
-                dateButton.text.toString()
-                //levelSpinner.text
+                deadlineButton.text.toString(),
+                levelSpinner.toString()
             )
         }
     }
 
-    private fun create(title: String, content: String, deadline: String) {
+    private fun create(title: String, content: String, deadline: String, level: String) {
 
         realm.executeTransaction {
             val task = it.createObject(Task::class.java, UUID.randomUUID().toString())
             task.Title = title
             task.content = content
             task.deadline = deadline
-            // task.level = level
+            task.level = level
 
         }
         Log.d("deadline", deadline)
     }
 }
+
 
 
 
