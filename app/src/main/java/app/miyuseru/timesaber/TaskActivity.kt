@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_create.*
+import kotlinx.android.synthetic.main.activity_create.contentText
+import kotlinx.android.synthetic.main.activity_create.deadlineButton
+import kotlinx.android.synthetic.main.activity_create.titleText
+import kotlinx.android.synthetic.main.activity_task.*
 
 class TaskActivity : AppCompatActivity() {
 
@@ -26,7 +30,7 @@ class TaskActivity : AppCompatActivity() {
         titleText.setText(titletext)
         contentText.setText(contenttext)
         deadlineButton.setText(deadline)
-        levelSpinner.setText(level)
+        levelView.setText(level)
 
 
     }

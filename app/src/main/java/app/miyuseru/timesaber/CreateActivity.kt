@@ -1,14 +1,18 @@
 package app.miyuseru.timesaber
 
+import android.R
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_create.*
+import sun.jvm.hotspot.utilities.IntArray
 import java.util.*
+
 
 class CreateActivity : AppCompatActivity() {
 
@@ -64,7 +68,11 @@ class CreateActivity : AppCompatActivity() {
         }
     }
 
+
     private fun create(title: String, content: String, deadline: String, level: String) {
+
+        var spinner = findViewById(R.id.spinner) as Spinner
+        var level = spinner.selectedItemPosition
 
         realm.executeTransaction {
             val task = it.createObject(Task::class.java, UUID.randomUUID().toString())
@@ -72,6 +80,7 @@ class CreateActivity : AppCompatActivity() {
             task.content = content
             task.deadline = deadline
             task.level = level
+
 
         }
         Log.d("deadline", deadline)
