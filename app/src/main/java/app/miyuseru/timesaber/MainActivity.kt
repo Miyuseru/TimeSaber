@@ -1,16 +1,15 @@
 package app.miyuseru.timesaber
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -139,6 +138,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         Log.d("position", position.toString())
+        val dateFormat = SimpleDateFormat("M", Locale.JAPAN)
+        Log.d("month", dateFormat.format(mCalendarAdapter.getDayOfWeek(position)))
     }
 
 }

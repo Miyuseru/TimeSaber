@@ -71,11 +71,14 @@ class CalendarAdapter(var context: Context) : BaseAdapter() {
 
     override fun getItemId(position: Int): Long {
         return 0
-
     }
 
     override fun getItem(position: Int): Any? {
         return null
+    }
+
+    fun getDayOfWeek(position: Int): Any? {
+        return dateArray[position]
     }
 
     fun getTitle(): String? {
