@@ -25,36 +25,36 @@ class CreateActivity : AppCompatActivity() {
 
 //    val nowdate = SimpleDateFormat("yyyy-MM-dd").format(Date())
 
-    var selectedItems: Array<Int> = arrayOf(0, 0, 0, 0, 0, 0, 0, 0)
+   // var selectedItems: Array<Int> = arrayOf(0, 0, 0, 0, 0, 0, 0, 0)
 
 
-    private val mOnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
-        override fun onItemSelected(parent: AdapterView<*>, view: View, postion: Int, id: Long) {
-            Log.d("position", postion.toString())
-
-            when (parent.id) {
-                app.miyuseru.timesaber.R.id.levelSpinner -> {
-
-                    selectedItems[0] = postion
-                    selectedItems[1] = postion
-                    selectedItems[2] = postion
-                    selectedItems[2] = postion
-                    selectedItems[3] = postion
-                    selectedItems[4] = postion
-
-                }
-
-
-            }
-
-        }
-
-
-    }
+//    private val mOnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//        override fun onNothingSelected(parent: AdapterView<*>?) {
+//            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        }
+//
+////        override fun onItemSelected(parent: AdapterView<*>, view: View, postion: Int, id: Long) {
+////            Log.d("position", postion.toString())
+////
+////            when (parent.id) {
+////                app.miyuseru.timesaber.R.id.levelSpinner -> {
+////
+////                    selectedItems[0] = postion
+////                    selectedItems[1] = postion
+////
+////                    selectedItems[2] = postion
+////                    selectedItems[3] = postion
+////                    selectedItems[4] = postion
+////
+////                }
+////
+////
+////            }
+////
+////        }
+//
+//
+//    }
 
 
     private val mOnDateClickListener = View.OnClickListener {
@@ -80,7 +80,7 @@ class CreateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
 
-        setSpinnerAdapter()
+       // setSpinnerAdapter()
         deadlineButton.setOnClickListener(mOnDateClickListener)
 
         val calendar = Calendar.getInstance()
@@ -95,15 +95,15 @@ class CreateActivity : AppCompatActivity() {
             create(
                 titleText.text.toString(),
                 contentText.text.toString(),
-                deadlineButton.text.toString(),
-                levelSpinner.toString()
+                deadlineButton.text.toString()
+               // levelSpinner.toString()
 
             )
         }
     }
 
 
-    private fun create(title: String, content: String, deadline: String, level: String) {
+    private fun create(title: String, content: String, deadline: String ) {
 //
 //        var spinner = findViewById(R.id.spinner) as Spinner
 //        var level = spinner.selectedItemPosition
@@ -113,31 +113,31 @@ class CreateActivity : AppCompatActivity() {
             task.Title = title
             task.content = content
             task.deadline = deadline
-            task.level = level
+          //  task.level = level
 
         }
         Log.d("deadline", deadline)
     }
 
-    private fun setSpinnerAdapter() {
-        val spinnerAdapter = ArrayAdapter<String>(
-            this,
-            android.R.layout.simple_spinner_item,
-            resources.getStringArray(app.miyuseru.timesaber.R.array.list)
-        )
-
-
-        val spinner = arrayOf(
-            levelSpinner
-
-        )
-
-        for (s in spinner) {
-            s.adapter = spinnerAdapter
-            s.onItemSelectedListener = mOnItemSelectedListener
-        }
-
-    }
+//    private fun setSpinnerAdapter() {
+//        val spinnerAdapter = ArrayAdapter<String>(
+//            this,
+//            android.R.layout.simple_spinner_item,
+//            resources.getStringArray(app.miyuseru.timesaber.R.array.list)
+//        )
+//
+//
+//        val spinner = arrayOf(
+//            levelSpinner
+//
+//        )
+//
+//        for (s in spinner) {
+//            s.adapter = spinnerAdapter
+//            s.onItemSelectedListener = mOnItemSelectedListener
+//        }
+//
+//    }
 }
 
 

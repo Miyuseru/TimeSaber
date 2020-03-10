@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.RatingBar
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.activity_create.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.titleText
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
         prevButton.setOnClickListener {
-            mCalendarAdapter.prevMonth()
+            mCalendarAdapter.run { prevMonth() }
             titleText.text = mCalendarAdapter.getTitle()
         }
 
@@ -47,6 +50,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         calendarGridView.adapter = mCalendarAdapter
         titleText.text = mCalendarAdapter.getTitle()
 
+
+        val ratingBar = ratingBar ?: ratingBar
+
+        ratingBar.onRatingBarChangeListener =
+            RatingBar.OnRatingBarChangeListener { p0, p1, p2 ->
+                Log.d(
+                    "rating_bar",
+                    ratingBar.rating.toString()
+                )
+
+
+            }
 
 
         calendarGridView.setOnItemClickListener() { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
@@ -141,6 +156,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         val dateFormat = SimpleDateFormat("M", Locale.JAPAN)
         Log.d("month", dateFormat.format(mCalendarAdapter.getDayOfWeek(position)))
     }
+
 
 }
 

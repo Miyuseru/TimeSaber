@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
@@ -40,5 +41,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'io.realm:android-adapters:3.1.0'
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
 
 }
