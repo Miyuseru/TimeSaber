@@ -70,6 +70,7 @@
             android:layout_marginHorizontal="1dp"
             android:layout_weight="1"
             android:background="@color/whiteColor"
+            android:fontFamily="sans-serif-black"
             android:text="日"
             android:textAlignment="center"
             android:textColor="@color/redColor" />
@@ -80,6 +81,7 @@
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@color/whiteColor"
+            android:fontFamily="sans-serif-black"
             android:text="月"
             android:textAlignment="center"
             android:textColor="@color/blackColor" />
@@ -90,6 +92,7 @@
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@color/whiteColor"
+            android:fontFamily="sans-serif-black"
             android:text="火"
             android:textAlignment="center"
             android:textColor="@color/blackColor" />
@@ -100,6 +103,7 @@
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@color/whiteColor"
+            android:fontFamily="sans-serif-black"
             android:text="水"
             android:textAlignment="center"
             android:textColor="@color/blackColor" />
@@ -110,6 +114,7 @@
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@color/whiteColor"
+            android:fontFamily="sans-serif-black"
             android:text="木"
             android:textAlignment="center"
             android:textColor="@color/blackColor" />
@@ -120,6 +125,7 @@
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@color/whiteColor"
+            android:fontFamily="sans-serif-black"
             android:text="金"
             android:textAlignment="center"
             android:textColor="@color/blackColor" />
@@ -130,6 +136,7 @@
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@color/whiteColor"
+            android:fontFamily="sans-serif-black"
             android:text="土"
             android:textAlignment="center"
             android:textColor="@color/blueColor" />
@@ -140,6 +147,7 @@
         android:id="@+id/calendarGridView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fontFamily="sans-serif-black"
         android:horizontalSpacing="1dp"
         android:numColumns="7"
         android:stretchMode="columnWidth"
