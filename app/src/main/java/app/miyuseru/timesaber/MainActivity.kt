@@ -51,9 +51,17 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         titleText.text = mCalendarAdapter.getTitle()
 
 
+        val ratingBar = ratingBar ?: ratingBar
 
         ratingBar.onRatingBarChangeListener =
-            RatingBar.OnRatingBarChangeListener { p0, p1, p2 -> Log.d("rating_bar", ratingBar.rating.toString()) }
+            RatingBar.OnRatingBarChangeListener { p0, p1, p2 ->
+                Log.d(
+                    "rating_bar",
+                    ratingBar.rating.toString()
+                )
+
+
+            }
 
 
         calendarGridView.setOnItemClickListener() { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
@@ -117,7 +125,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         calendarGridView.setOnItemClickListener(this)
 
     }
-
 
 
     override fun onStart() {
