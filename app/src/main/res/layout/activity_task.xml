@@ -33,28 +33,27 @@
             android:padding="5dp"
             android:textSize="30sp" />
 
-        <EditText
-            android:id="@+id/deadlineText"
+        <Button
+            android:id="@+id/deadlineButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_stroke"
-            android:ems="10"
-            android:hint="締め切り"
-            android:inputType="date"
-            android:padding="5dp"
-            android:textSize="30sp" />
+            android:text="----/--/--" />
 
-        <EditText
-            android:id="@+id/editText3"
+        <Spinner
+            android:id="@+id/levelSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/textview_stroke"
+            android:entries="@array/list"
+            android:gravity="center"
+            android:spinnerMode="dialog" />
+
+        <TextView
+            android:id="@+id/levelView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/textview_stroke"
-            android:ems="10"
-            android:fontFamily="sans-serif-black"
-            android:hint="レベル"
-            android:inputType="textPersonName"
-            android:padding="5dp"
-            android:textSize="30sp" />
+            android:text="TextView" />
 
         <EditText
             android:id="@+id/contentText"
