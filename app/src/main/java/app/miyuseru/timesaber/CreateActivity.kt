@@ -1,16 +1,15 @@
 package app.miyuseru.timesaber
 
-import android.R
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Spinner
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_create.*
-import sun.jvm.hotspot.utilities.IntArray
 import java.util.*
 
 
@@ -25,6 +24,38 @@ class CreateActivity : AppCompatActivity() {
     private var mDay: Int = 0
 
 //    val nowdate = SimpleDateFormat("yyyy-MM-dd").format(Date())
+
+    var selectedItems: Array<Int> = arrayOf(0, 0, 0, 0, 0, 0, 0, 0)
+
+
+    private val mOnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onItemSelected(parent: AdapterView<*>, view: View, postion: Int, id: Long) {
+            Log.d("position", postion.toString())
+
+            when (parent.id) {
+                app.miyuseru.timesaber.R.id.levelSpinner -> {
+
+                    selectedItems[0] = postion
+                    selectedItems[1] = postion
+                    selectedItems[2] = postion
+                    selectedItems[2] = postion
+                    selectedItems[3] = postion
+                    selectedItems[4] = postion
+
+                }
+
+
+            }
+
+        }
+
+
+    }
+
 
     private val mOnDateClickListener = View.OnClickListener {
         val datePickerDialog = DatePickerDialog(
@@ -49,13 +80,15 @@ class CreateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
 
-
+        setSpinnerAdapter()
         deadlineButton.setOnClickListener(mOnDateClickListener)
 
         val calendar = Calendar.getInstance()
         mYear = calendar.get(Calendar.YEAR)
         mMonth = calendar.get(Calendar.MONTH)
         mDay = calendar.get(Calendar.DAY_OF_MONTH)
+
+
 
         createButton.setOnClickListener() {
             startActivity(Intent(this, MainActivity::class.java))
@@ -64,15 +97,16 @@ class CreateActivity : AppCompatActivity() {
                 contentText.text.toString(),
                 deadlineButton.text.toString(),
                 levelSpinner.toString()
+
             )
         }
     }
 
 
     private fun create(title: String, content: String, deadline: String, level: String) {
-
-        var spinner = findViewById(R.id.spinner) as Spinner
-        var level = spinner.selectedItemPosition
+//
+//        var spinner = findViewById(R.id.spinner) as Spinner
+//        var level = spinner.selectedItemPosition
 
         realm.executeTransaction {
             val task = it.createObject(Task::class.java, UUID.randomUUID().toString())
@@ -81,9 +115,28 @@ class CreateActivity : AppCompatActivity() {
             task.deadline = deadline
             task.level = level
 
-
         }
         Log.d("deadline", deadline)
+    }
+
+    private fun setSpinnerAdapter() {
+        val spinnerAdapter = ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_spinner_item,
+            resources.getStringArray(app.miyuseru.timesaber.R.array.list)
+        )
+
+
+        val spinner = arrayOf(
+            levelSpinner
+
+        )
+
+        for (s in spinner) {
+            s.adapter = spinnerAdapter
+            s.onItemSelectedListener = mOnItemSelectedListener
+        }
+
     }
 }
 

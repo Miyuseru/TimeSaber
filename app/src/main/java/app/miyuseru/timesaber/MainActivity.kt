@@ -1,19 +1,28 @@
 package app.miyuseru.timesaber
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
+
 
     private val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
+    private var dateArray: List<Date> = ArrayList()
+    var mDateManager: DateManager = DateManager()
+    val mCalendarAdapter = CalendarAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,24 +33,52 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
 
-            val date =
-                "$year/" + String.format(
-                    "%02d",
-                    month + 1
-                ) + "/" + String.format("%02d", dayOfMonth)
-//                "$year/${month + 1}/$dayOfMonth"
-            // 2019/07/08
+        prevButton.setOnClickListener {
+            mCalendarAdapter.prevMonth()
+            titleText.text = mCalendarAdapter.getTitle()
+        }
 
-            Log.d("date", date)
+        nextButton.setOnClickListener {
+            mCalendarAdapter.nextMonth()
+            titleText.text = mCalendarAdapter.getTitle()
+        }
+
+
+        calendarGridView.adapter = mCalendarAdapter
+        titleText.text = mCalendarAdapter.getTitle()
+
+
+
+        calendarGridView.setOnItemClickListener() { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+
+            //
+//                view, year, month, dayOfMonth ->
+//
+//            val date =
+//                "$year/" + String.format(
+//                    "%02d",
+//                    month + 1
+//                ) + "/" + String.format("%02d", dayOfMonth)
+//            "$year/${month + 1}/$dayOfMonth"
+//
+
+
+            //DateManagerから日付を取得
+            //押した日付とdeadlineが一致するタスクを取得してタスクアクティビティへ表示
+//
+//            var mDateManager: DateManager = DateManager()
+//            val date = mDateManager.getDays()!!
+
+
+            //  Log.d("date", date)
 
             //アイテムを見つける item→dete=deadline
 
             // 該当アイテムの取得
             val task = realm
                 .where(Task::class.java)
-                .equalTo("deadline", date)
+                // .equalTo("deadline", date)
                 .findFirst()
 
             task?.let {
@@ -70,7 +107,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(preview)
 //            Log.d("click", "click")
         }
+
+        calendarGridView.setOnItemClickListener(this)
+
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -82,5 +123,24 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+//    fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
+//
+//        if (mDateManager.isCurrentMonth(dateArray[position])) {
+//
+//            if (convertView != null) {
+//
+//            }
+//        } else {
+//            if (convertView != null) {
+//
+//            }
+//        }
+//    }
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        Log.d("position", position.toString())
+    }
+
 }
+
 
