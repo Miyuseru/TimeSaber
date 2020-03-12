@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
@@ -18,11 +17,13 @@ import java.util.*
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottom_sheet)
 
     private val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
+
+
     private var dateArray: List<Date> = ArrayList()
     var mDateManager: DateManager = DateManager()
     val mCalendarAdapter = CalendarAdapter(this)
@@ -32,11 +33,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         setContentView(R.layout.activity_main)
 
 
+
         button.setOnClickListener {
             startActivity(Intent(applicationContext, CreateActivity::class.java))
         }
 
+//
 
+//
+//        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+////                Log.d("onSlide(bottomSheet)", bottomSheet.toString())
+////                Log.d("onSlide(slideOffset)", slideOffset.toString())
+//            }
+//        }
 
         prevButton.setOnClickListener {
             mCalendarAdapter.run { prevMonth() }
@@ -56,12 +66,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
         calendarGridView.setOnItemClickListener() { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-
-
-            val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheetLayout)
-            behavior.setState(BottomSheetBehavior.STATE_HIDDEN)
-            bottomSheetBehavior.setHideable(true)
-            behavior.setPeekHeight(300)
+            var mDateManager: DateManager = DateManager()
+            val date = mDateManager.getDays()!!
 
             //
 //                view, year, month, dayOfMonth ->
@@ -77,9 +83,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
             //DateManagerから日付を取得
             //押した日付とdeadlineが一致するタスクを取得してタスクアクティビティへ表示
-//
-//            var mDateManager: DateManager = DateManager()
-//            val date = mDateManager.getDays()!!
 
 
             //  Log.d("date", date)
@@ -87,39 +90,40 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             //アイテムを見つける item→dete=deadline
 
             // 該当アイテムの取得
-            val task = realm
-                .where(Task::class.java)
-                // .equalTo("deadline", date)
-                .findFirst()
+//            val task = realm
+//                .where(Task::class.java)
+//                 .equalTo("deadline", date)
+//                .findFirst()
 
-            task?.let {
-                Log.d("task", it.deadline)
-            }
-            Log.d("task content", task.toString())
+//            task?.let {
+//                Log.d("task", it.deadline)
+//            }
+//            Log.d("task content", task.toString())
 
 //            val item = date.equals(Task::deadline)
 
-            val preview = Intent(applicationContext, TaskActivity::class.java)
+            //  val preview = Intent(applicationContext, TaskActivity::class.java)
 //
-//            //itemの
-            if (task != null) {
-                preview.putExtra("Title", task.Title)
-            }
-            if (task != null) {
-                preview.putExtra("content", task.content)
-            }
-            if (task != null) {
-                preview.putExtra("deadline", task.deadline)
-            }
-            if (task != null) {
-                preview.putExtra("level", task.level)
-            }
+////            //itemの
+//            if (task != null) {
+//                preview.putExtra("Title", task.Title)
+//            }
+//            if (task != null) {
+//                preview.putExtra("content", task.content)
+//            }
+//            if (task != null) {
+//                preview.putExtra("deadline", task.deadline)
+//            }
+//            if (task != null) {
+//                preview.putExtra("level", task.level)
+//            }
 
-            startActivity(preview)
+            //startActivity(preview)
 //            Log.d("click", "click")
         }
 
         calendarGridView.setOnItemClickListener(this)
+
 
     }
 
@@ -152,6 +156,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         Log.d("position", position.toString())
         val dateFormat = SimpleDateFormat("M", Locale.JAPAN)
         Log.d("month", dateFormat.format(mCalendarAdapter.getDayOfWeek(position)))
+
+
+        behavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+
     }
 
 
