@@ -24,43 +24,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     var mDateManager: DateManager = DateManager()
     val mCalendarAdapter = CalendarAdapter(this)
 
-    private lateinit var behavior: BottomSheetBehavior<*>
+    private lateinit var behavior: LockableBottomSheetBehavior<*>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        behavior = BottomSheetBehavior.from(bottom_sheet)
-
-        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//                Log.d("onSlide(bottomSheet)", bottomSheet.toString())
-//                Log.d("onSlide(slideOffset)", slideOffset.toString())
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_DRAGGING -> {
-                        Log.d("現在の状態", "STATE_DRAGGING")
-                    }
-                    BottomSheetBehavior.STATE_SETTLING -> {
-                        Log.d("現在の状態", "STATE_SETTLING")
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        Log.d("現在の状態", "STATE_EXPANDED")
-                    }
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        Log.d("現在の状態", "STATE_COLLAPSED")
-                    }
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                        Log.d("現在の状態", "STATE_HIDDEN")
-                    }
-                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                        Log.d("現在の状態", "STATE_HALF_EXPANDED")
-                    }
-                }
-            }
-        })
+        behavior = BottomSheetBehavior.from(bottom_sheet) as LockableBottomSheetBehavior<*>
+        behavior.locked = true
 
         button.setOnClickListener {
             startActivity(Intent(applicationContext, CreateActivity::class.java))
@@ -156,7 +127,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         val dateFormat = SimpleDateFormat("M", Locale.JAPAN)
         Log.d("month", dateFormat.format(mCalendarAdapter.getDayOfWeek(position)))
 
-        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        // ボタンクリックによって、Expand・Collapseを制御する
+        when (behavior.state) {
+            BottomSheetBehavior.STATE_COLLAPSED -> {
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+            BottomSheetBehavior.STATE_HIDDEN -> {
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
 
     }
 
