@@ -5,19 +5,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.RatingBar
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.activity_create.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.titleText
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
+
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     private val realm: Realm by lazy {
         Realm.getDefaultInstance()
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         button.setOnClickListener {
             startActivity(Intent(applicationContext, CreateActivity::class.java))
@@ -51,20 +53,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         titleText.text = mCalendarAdapter.getTitle()
 
 
-        val ratingBar = ratingBar ?: ratingBar
-
-        ratingBar.onRatingBarChangeListener =
-            RatingBar.OnRatingBarChangeListener { p0, p1, p2 ->
-                Log.d(
-                    "rating_bar",
-                    ratingBar.rating.toString()
-                )
-
-
-            }
 
 
         calendarGridView.setOnItemClickListener() { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+
+
+            val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheetLayout)
+            behavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+            bottomSheetBehavior.setHideable(true)
+            behavior.setPeekHeight(300)
 
             //
 //                view, year, month, dayOfMonth ->

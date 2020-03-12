@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RatingBar
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_create.*
@@ -79,6 +80,19 @@ class CreateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
+
+      //  val ratingBar = ratingBar ?: ratingBar
+
+        ratingBar.onRatingBarChangeListener =
+            RatingBar.OnRatingBarChangeListener { p0, p1, p2 ->
+                Log.d(
+                    "rating_bar",
+                    ratingBar.rating.toString()
+                )
+
+
+            }
+
 
        // setSpinnerAdapter()
         deadlineButton.setOnClickListener(mOnDateClickListener)
