@@ -1,17 +1,21 @@
 package app.miyuseru.timesaber
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
 import io.realm.RealmResults
+import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.stream.IntStream.range
 
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
@@ -52,13 +56,16 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         titleText.text = mCalendarAdapter.getTitle()
 
 
+
+
         calendarGridView.onItemClickListener = this
 
-        taskTitle.setOnClickListener {
-            // do something
-        }
+//        taskTitle.setOnClickListener {
+        //ここに処理書く
+//        }
 
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -96,6 +103,76 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         } else {
             taskTitle.text = ""
         }
+
+        fun readAll(): RealmResults<Task> {
+            return realm.where(Task::class.java).findAll().sort("deadline", Sort.ASCENDING)
+        }
+
+        @RequiresApi(Build.VERSION_CODES.N)
+        fun isDateInRange(input: String): Boolean {
+            return SimpleDateFormat("yyyy/MM/dd").let {
+                // 年月日だけ取り出す
+                val date = SimpleDateFormat("yyyy/MM/dd").let {
+                    val parsed = it.parse(input)
+                    it.format(parsed)
+
+                }
+
+                val daytask: String = task.deadline
+                for (task in readAll()) {
+                    if (daytask in range) {
+                        taskTitle.text = title.toString()
+                    } else {
+                        taskTitle.text = ""
+                    }
+                }
+
+
+                // 指定範囲を作る(今日の日付から締め切り)
+                val range = it.parse(date)..it.parse("deadline")
+
+                // 含まれているかを確認する
+                range.contains(it.parse(input))
+
+
+            }
+//            println(isDateInRange("true")) // true
+//            println(isDateInRange("false")) // false
+
+            //dateFormatでクリックした日付取得
+            //今持ってるtaskとの照合
+
+
+        }
+
+
+        //taskとitemDeadlineの値を使いたかったのでここに書いてみた
+
+        taskTitle.setOnClickListener {
+
+            val task = realm.where(Task::class.java).equalTo("deadline", itemDeadline).findFirst()
+
+
+            val preview = Intent(applicationContext, TaskActivity::class.java)
+
+            if (task != null) {
+                preview.putExtra("Title", task.title)
+            }
+            if (task != null) {
+                preview.putExtra("content", task.content)
+            }
+            if (task != null) {
+                preview.putExtra("deadline", task.deadline)
+            }
+            if (task != null) {
+                preview.putExtra("level", task.level)
+            }
+//
+            startActivity(preview)
+
+
+        }
+
 
     }
 
