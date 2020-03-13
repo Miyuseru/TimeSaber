@@ -5,8 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.RatingBar
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
@@ -26,7 +24,7 @@ class CreateActivity : AppCompatActivity() {
 
 //    val nowdate = SimpleDateFormat("yyyy-MM-dd").format(Date())
 
-   // var selectedItems: Array<Int> = arrayOf(0, 0, 0, 0, 0, 0, 0, 0)
+    // var selectedItems: Array<Int> = arrayOf(0, 0, 0, 0, 0, 0, 0, 0)
 
 
 //    private val mOnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -81,7 +79,7 @@ class CreateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
 
-      //  val ratingBar = ratingBar ?: ratingBar
+        //  val ratingBar = ratingBar ?: ratingBar
 
         ratingBar.onRatingBarChangeListener =
             RatingBar.OnRatingBarChangeListener { p0, p1, p2 ->
@@ -94,7 +92,7 @@ class CreateActivity : AppCompatActivity() {
             }
 
 
-       // setSpinnerAdapter()
+        // setSpinnerAdapter()
         deadlineButton.setOnClickListener(mOnDateClickListener)
 
         val calendar = Calendar.getInstance()
@@ -110,14 +108,14 @@ class CreateActivity : AppCompatActivity() {
                 titleText.text.toString(),
                 contentText.text.toString(),
                 deadlineButton.text.toString()
-               // levelSpinner.toString()
+                // levelSpinner.toString()
 
             )
         }
     }
 
 
-    private fun create(title: String, content: String, deadline: String ) {
+    private fun create(title: String, content: String, deadline: String) {
 //
 //        var spinner = findViewById(R.id.spinner) as Spinner
 //        var level = spinner.selectedItemPosition
@@ -127,10 +125,10 @@ class CreateActivity : AppCompatActivity() {
             task.Title = title
             task.content = content
             task.deadline = deadline
-          //  task.level = level
+            //  task.level = level
 
         }
-        Log.d("deadline", deadline)
+        Log.d("Title", title)
     }
 
 //    private fun setSpinnerAdapter() {
