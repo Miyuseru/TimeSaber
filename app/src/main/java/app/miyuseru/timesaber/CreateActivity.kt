@@ -100,8 +100,6 @@ class CreateActivity : AppCompatActivity() {
         mMonth = calendar.get(Calendar.MONTH)
         mDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-
-
         createButton.setOnClickListener() {
             startActivity(Intent(this, MainActivity::class.java))
             create(
@@ -122,13 +120,13 @@ class CreateActivity : AppCompatActivity() {
 
         realm.executeTransaction {
             val task = it.createObject(Task::class.java, UUID.randomUUID().toString())
-            task.Title = title
+            task.title = title
             task.content = content
             task.deadline = deadline
             //  task.level = level
 
         }
-        Log.d("Title", title)
+        Log.d("title", title)
     }
 
 //    private fun setSpinnerAdapter() {

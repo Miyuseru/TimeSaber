@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
@@ -21,9 +20,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         Realm.getDefaultInstance()
     }
 
+    private val mCalendarAdapter = CalendarAdapter(this)
+
     private var dateArray: List<Date> = ArrayList()
     var mDateManager: DateManager = DateManager()
-    val mCalendarAdapter = CalendarAdapter(this)
 
     private lateinit var behavior: LockableBottomSheetBehavior<*>
 
@@ -52,8 +52,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         titleText.text = mCalendarAdapter.getTitle()
 
 
-        calendarGridView.setOnItemClickListener(this)
-        taskTitle.setOnClickListener()
+        calendarGridView.onItemClickListener = this
+
+        taskTitle.setOnClickListener {
+            // do something
+        }
 
     }
 
@@ -70,8 +73,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         Log.d("position", position.toString())
-        val dateFormat = SimpleDateFormat("M", Locale.JAPAN)
-        Log.d("month", dateFormat.format(mCalendarAdapter.getDayOfWeek(position)))
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.JAPAN)
+        Log.d("data", dateFormat.format(mCalendarAdapter.getDayOfWeek(position)))
+        val itemDeadline = dateFormat.format(mCalendarAdapter.getDayOfWeek(position))
 
         // ボタンクリックによって、Expand・Collapseを制御する
         when (behavior.state) {
@@ -83,47 +87,41 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             }
         }
 
-        val task = realm
-            .where(Task::class.java)
-            .equalTo("deadline", position.toString())
-            .findFirst()
+        val task = realm.where(Task::class.java).equalTo("deadline", itemDeadline).findFirst()
 
-        val Title = task?.Title
-        val taskTitleView: TextView = findViewById(R.id.taskTitle)
-
-        // taskTitleView.text = Title.toString()
+        val title = task?.title
 
         if (task != null) {
-            taskTitleView.text = Title.toString()
+            taskTitle.text = title.toString()
         } else {
-            taskTitleView.text = ""
+            taskTitle.text = ""
         }
 
     }
 
 
-    val taskTitleView: TextView = findViewById(R.id.taskTitle)
+//    val taskTitleView: TextView = findViewById(R.id.taskTitle)
 
-    private fun taskTitleView.setOnItemClickListener() {
-
-        val preview = Intent(TaskActivity::class.java)
-
-        if (task != null) {
-            preview.putExtra("Title", task.Title)
-        }
-        if (task != null) {
-            preview.putExtra("content", task.content)
-        }
-        if (task != null) {
-            preview.putExtra("deadline", task.deadline)
-        }
-        if (task != null) {
-            preview.putExtra("level", task.level)
-        }
-
-        //startActivity(preview)
-        Log.d("click", "click")
-    }
+//    private fun taskTitleView.setOnItemClickListener() {
+//
+//        val preview = Intent(TaskActivity::class.java)
+//
+//        if (task != null) {
+//            preview.putExtra("Title", task.Title)
+//        }
+//        if (task != null) {
+//            preview.putExtra("content", task.content)
+//        }
+//        if (task != null) {
+//            preview.putExtra("deadline", task.deadline)
+//        }
+//        if (task != null) {
+//            preview.putExtra("level", task.level)
+//        }
+//
+//        //startActivity(preview)
+//        Log.d("click", "click")
+//    }
 
 
 }
