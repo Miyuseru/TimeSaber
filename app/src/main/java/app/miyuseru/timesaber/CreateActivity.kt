@@ -1,14 +1,18 @@
 package app.miyuseru.timesaber
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.RatingBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_create.*
+import kotlinx.android.synthetic.main.activity_create.titleText
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 
@@ -109,7 +113,9 @@ class CreateActivity : AppCompatActivity() {
                 // levelSpinner.toString()
 
             )
+
         }
+
     }
 
 
@@ -127,6 +133,9 @@ class CreateActivity : AppCompatActivity() {
 
         }
         Log.d("title", title)
+    }
+
+
     }
 
 //    private fun setSpinnerAdapter() {
@@ -148,7 +157,7 @@ class CreateActivity : AppCompatActivity() {
 //        }
 //
 //    }
-}
+
 
 
 

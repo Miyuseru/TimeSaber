@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
         calendarGridView.onItemClickListener = this
+        dayTaskText()
 
 //        taskTitle.setOnClickListener {
         //ここに処理書く
@@ -75,6 +77,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             Log.d("task.deadline", result.deadline)
         }
 
+
+    }
+
+    fun dayTaskText() {
+
+        val taskcell = realm.where(R.layout.calendar_cell)
+        val daytasktext = TextView(this)
+
+        daytasktext.text = title.toString()
+        daytasktext.textSize = 30F
+
+        taskcell.addView(daytasktext)
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -117,7 +131,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
                 }
 
-//                val daytask: String = task.deadline
+
+                val range = it.parse(date)..it.parse("deadline")
+//                val daytask: String = task
 //                for (task in readAll()) {
 //                    if (daytask in range()) {
 //                        taskTitle.text = title.toString()
@@ -128,8 +144,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
                 // 指定範囲を作る(今日の日付から締め切り)
-                val range = it.parse(date)..it.parse("deadline")
-
                 // 含まれているかを確認する
                 range.contains(it.parse(input))
 
