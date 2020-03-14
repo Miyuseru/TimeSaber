@@ -193,6 +193,7 @@
         app:layout_behavior="app.miyuseru.timesaber.LockableBottomSheetBehavior">
 
         <LinearLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -205,6 +206,7 @@
                 android:fontFamily="sans-serif-black"
                 android:text="BottomSheet"
                 android:textSize="30sp" />
+
 
             <!--            <TextView-->
             <!--                android:layout_width="match_parent"-->

@@ -1,6 +1,5 @@
 package app.miyuseru.timesaber
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
         calendarGridView.onItemClickListener = this
-        dayTaskText()
+        dayTaskImage()
 
 //        taskTitle.setOnClickListener {
         //ここに処理書く
@@ -86,16 +85,26 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
         //val taskcell = R.layout.calendar_cell
-        val taskcell = LinearLayout(this)
-        setContentView(linearLayout)
+        // XMLにLinearLayoutのcontainerを作成しておく
+        // 要変更
+//        val taskcell = LinearLayout(this)
 //
 //        val daytaskImageView: ImageView =setImageResource(R.drawable.)
 
-        val imageView = findViewById<ImageView>(R.drawable.bar1)
+        val imageView = ImageView(this)
+        // 画像のサイズ周りの記述
+        // https://akira-watson.com/android/button-hardcoding.html
+
+        imageView.layoutParams =
+            LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+
         imageView.setImageResource(R.drawable.bar1)
 
         //imageView.setImageResource(R.drawable.)
-        taskcell.addView(imageView)
+        container.addView(imageView)
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
