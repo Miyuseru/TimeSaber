@@ -13,6 +13,9 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_create.*
 import kotlinx.android.synthetic.main.activity_create.titleText
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -22,11 +25,12 @@ class CreateActivity : AppCompatActivity() {
         Realm.getDefaultInstance()
     }
 
+
     private var mYear: Int = 0
     private var mMonth: Int = 0
     private var mDay: Int = 0
 
-//    val nowdate = SimpleDateFormat("yyyy-MM-dd").format(Date())
+    val nowdate = SimpleDateFormat("yyyy-MM-dd").format(Date())
 
     // var selectedItems: Array<Int> = arrayOf(0, 0, 0, 0, 0, 0, 0, 0)
 
@@ -109,17 +113,20 @@ class CreateActivity : AppCompatActivity() {
             create(
                 titleText.text.toString(),
                 contentText.text.toString(),
-                deadlineButton.text.toString()
+                deadlineButton.text.toString(),
+                nowdate = Date()
                 // levelSpinner.toString()
 
             )
+
+
 
         }
 
     }
 
 
-    private fun create(title: String, content: String, deadline: String) {
+    private fun create(title: String, content: String, deadline: String , nowdate: Date) {
 //
 //        var spinner = findViewById(R.id.spinner) as Spinner
 //        var level = spinner.selectedItemPosition
@@ -129,10 +136,13 @@ class CreateActivity : AppCompatActivity() {
             task.title = title
             task.content = content
             task.deadline = deadline
+            task.createdAt = nowdate
             //  task.level = level
 
         }
+
         Log.d("title", title)
+        Log.d("nowdate",nowdate.toString())
     }
 
 

@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import io.realm.Realm
+import io.realm.Sort
 import kotlinx.android.synthetic.main.calendar_cell.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,6 +21,10 @@ class CalendarAdapter(var context: Context) : BaseAdapter() {
     class ViewHolder(view: View) {
         var dateText: TextView = view.dateText
         var imageView: ImageView = view.image_view
+    }
+
+    private val realm: Realm by lazy {
+        Realm.getDefaultInstance()
     }
 
     init {
@@ -71,22 +77,28 @@ class CalendarAdapter(var context: Context) : BaseAdapter() {
 
         // 画像のサイズ周りの記述
         // https://akira-watson.com/android/button-hardcoding.html
+        val task =
+            realm.where(Task::class.java).findAll().sort("deadline", Sort.ASCENDING)
 
-        (viewHolder as ViewHolder).imageView.layoutParams =
-            LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+        if (task != null) {
 
-        Log.d("position", position.toString())
+            (viewHolder as ViewHolder).imageView.layoutParams =
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
 
-        (viewHolder as ViewHolder).imageView.setImageResource(R.drawable.bar1)
+            Log.d("position", position.toString())
+
+            (viewHolder as ViewHolder).imageView.setImageResource(R.drawable.bar1)
+        }
 
         //imageView.setImageResource(R.drawable.)
 //        (convertView as LinearLayout).addView(viewHolder)
 
         return convertView
     }
+
 
     override fun getItemId(position: Int): Long {
         return 0

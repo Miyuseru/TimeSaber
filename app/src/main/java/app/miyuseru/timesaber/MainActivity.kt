@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
@@ -60,7 +58,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
         calendarGridView.onItemClickListener = this
-        dayTaskImage()
+        //   dayTaskImage()
 
 //        taskTitle.setOnClickListener {
         //ここに処理書く
@@ -81,31 +79,31 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     }
 
-    fun dayTaskImage() {
-
-
-        //val taskcell = R.layout.calendar_cell
-        // XMLにLinearLayoutのcontainerを作成しておく
-        // 要変更
-//        val taskcell = LinearLayout(this)
+//    fun dayTaskImage() {
 //
-//        val daytaskImageView: ImageView =setImageResource(R.drawable.)
-
-        val imageView = ImageView(this)
-        // 画像のサイズ周りの記述
-        // https://akira-watson.com/android/button-hardcoding.html
-
-        imageView.layoutParams =
-            LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-
-        imageView.setImageResource(R.drawable.bar1)
-
-        //imageView.setImageResource(R.drawable.)
-        container.addView(imageView)
-    }
+//
+//        //val taskcell = R.layout.calendar_cell
+//        // XMLにLinearLayoutのcontainerを作成しておく
+//        // 要変更
+////        val taskcell = LinearLayout(this)
+////
+////        val daytaskImageView: ImageView =setImageResource(R.drawable.)
+//
+//        val imageView = ImageView(this)
+//        // 画像のサイズ周りの記述
+//        // https://akira-watson.com/android/button-hardcoding.html
+//
+//        imageView.layoutParams =
+//            LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//            )
+//
+//        imageView.setImageResource(R.drawable.bar1)
+//
+//        //imageView.setImageResource(R.drawable.)
+//        container.addView(imageView)
+    //}
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         Log.d("position", position.toString())
@@ -140,51 +138,55 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         fun isDateInRange(input: String): Boolean {
 
-//
-//            return SimpleDateFormat("yyyy/MM/dd").let {
-//                // 年月日だけ取り出す
-//                val date = SimpleDateFormat("yyyy/MM/dd").let {
-//                    val parsed = it.parse(input)
-//                    it.format(parsed)
-//                }
-//
-//                // タスクの作成日
-//                // タスクの締め切り日
-//                // その中に入っているのか入っていないのか
-//                // input : タップした日付
-//
-//                // タスク全取得 : tasks
-//                // タスク1つ分 : task
-//
-//                // TODO
-//                // 範囲内にあるのかどうかを判定する
-//                // あれば、"BottomSheet"タイトルを表示
-//                // Log.dで表示できるのを目標
-//
-//                // クリックしたときに、タスクがログでとれればOK
-//
-////                val range = it.parse(task.createdAt)..it.parse(task.deadline)
-////                val daytask: String = task
-////                for (task in readAll()) {
-////                    if (daytask in range()) {
-////                        taskTitle.text = title.toString()
-////                    } else {
-////                        taskTitle.text = ""
-////                    }
-////                }
-//
-//                // 指定範囲を作る(今日の日付から締め切り)
-//                // 含まれているかを確認する
-////                range.contains(it.parse(input))
-//
-//            }
-////            println(isDateInRange("true")) // true
-////            println(isDateInRange("false")) // false
-//
-//            //dateFormatでクリックした日付取得
-//            //今持ってるtaskとの照合
-//
-//
+
+            return SimpleDateFormat("yyyy/MM/dd").let {
+                // 年月日だけ取り出す
+                val date = SimpleDateFormat("yyyy/MM/dd").let {
+                    val parsed = it.parse(input)
+                    it.format(parsed)
+                }
+
+                // タスクの作成日
+                // タスクの締め切り日
+                // その中に入っているのか入っていないのか
+                // input : タップした日付
+
+                // タスク全取得 : tasks
+                // タスク1つ分 : task
+
+                // TODO
+                // 範囲内にあるのかどうかを判定する
+                // あれば、"BottomSheet"タイトルを表示
+                // Log.dで表示できるのを目標
+
+                // クリックしたときに、タスクがログでとれればOK
+                val tasks =
+                    realm.where(Task::class.java)
+
+
+                val range = it.parse(task?.createdAt.toString())..it.parse(task?.deadline)
+                val daytask: String = task.title
+                for (task in readAll()) {
+                    if (tasks in range) {
+                        taskTitle.text = title.toString()
+                        Log.d("title", task.title)
+                    } else {
+                        taskTitle.text = ""
+                    }
+                }
+
+                // 指定範囲を作る(今日の日付から締め切り)
+                // 含まれているかを確認する
+                range.contains(it.parse(input))
+
+            }
+            println(isDateInRange("true")) // true
+            println(isDateInRange("false")) // false
+
+            //dateFormatでクリックした日付取得
+            //今持ってるtaskとの照合
+
+
         }
 
 
