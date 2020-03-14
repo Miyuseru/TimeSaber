@@ -18,7 +18,7 @@ class CalendarAdapter(var context: Context) : BaseAdapter() {
 
     class ViewHolder(view: View) {
         var dateText: TextView = view.dateText
-
+        var imageView: ImageView = view.image_view
     }
 
     init {
@@ -69,11 +69,10 @@ class CalendarAdapter(var context: Context) : BaseAdapter() {
         // TODO : タスクがあるのかどうか判定して、あるのであれば画像の挿入を行う．
         // 範囲内にあれば、表示できるように
 
-        val imageView = ImageView(context)
         // 画像のサイズ周りの記述
         // https://akira-watson.com/android/button-hardcoding.html
 
-        imageView.layoutParams =
+        (viewHolder as ViewHolder).imageView.layoutParams =
             LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -81,10 +80,10 @@ class CalendarAdapter(var context: Context) : BaseAdapter() {
 
         Log.d("position", position.toString())
 
-        imageView.setImageResource(R.drawable.bar1)
+        (viewHolder as ViewHolder).imageView.setImageResource(R.drawable.bar1)
 
         //imageView.setImageResource(R.drawable.)
-        (convertView as LinearLayout).addView(imageView)
+//        (convertView as LinearLayout).addView(viewHolder)
 
         return convertView
     }

@@ -140,51 +140,51 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         fun isDateInRange(input: String): Boolean {
 
-
-            return SimpleDateFormat("yyyy/MM/dd").let {
-                // 年月日だけ取り出す
-                val date = SimpleDateFormat("yyyy/MM/dd").let {
-                    val parsed = it.parse(input)
-                    it.format(parsed)
-                }
-
-                // タスクの作成日
-                // タスクの締め切り日
-                // その中に入っているのか入っていないのか
-                // input : タップした日付
-
-                // タスク全取得 : tasks
-                // タスク1つ分 : task
-
-                // TODO
-                // 範囲内にあるのかどうかを判定する
-                // あれば、"BottomSheet"タイトルを表示
-                // Log.dで表示できるのを目標
-                
-                // クリックしたときに、タスクがログでとれればOK
-
-                val range = it.parse(task.createdAt)..it.parse(task.deadline)
-//                val daytask: String = task
-//                for (task in readAll()) {
-//                    if (daytask in range()) {
-//                        taskTitle.text = title.toString()
-//                    } else {
-//                        taskTitle.text = ""
-//                    }
+//
+//            return SimpleDateFormat("yyyy/MM/dd").let {
+//                // 年月日だけ取り出す
+//                val date = SimpleDateFormat("yyyy/MM/dd").let {
+//                    val parsed = it.parse(input)
+//                    it.format(parsed)
 //                }
-
-                // 指定範囲を作る(今日の日付から締め切り)
-                // 含まれているかを確認する
-                range.contains(it.parse(input))
-
-            }
-//            println(isDateInRange("true")) // true
-//            println(isDateInRange("false")) // false
-
-            //dateFormatでクリックした日付取得
-            //今持ってるtaskとの照合
-
-
+//
+//                // タスクの作成日
+//                // タスクの締め切り日
+//                // その中に入っているのか入っていないのか
+//                // input : タップした日付
+//
+//                // タスク全取得 : tasks
+//                // タスク1つ分 : task
+//
+//                // TODO
+//                // 範囲内にあるのかどうかを判定する
+//                // あれば、"BottomSheet"タイトルを表示
+//                // Log.dで表示できるのを目標
+//
+//                // クリックしたときに、タスクがログでとれればOK
+//
+////                val range = it.parse(task.createdAt)..it.parse(task.deadline)
+////                val daytask: String = task
+////                for (task in readAll()) {
+////                    if (daytask in range()) {
+////                        taskTitle.text = title.toString()
+////                    } else {
+////                        taskTitle.text = ""
+////                    }
+////                }
+//
+//                // 指定範囲を作る(今日の日付から締め切り)
+//                // 含まれているかを確認する
+////                range.contains(it.parse(input))
+//
+//            }
+////            println(isDateInRange("true")) // true
+////            println(isDateInRange("false")) // false
+//
+//            //dateFormatでクリックした日付取得
+//            //今持ってるtaskとの照合
+//
+//
         }
 
 
@@ -192,7 +192,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         taskTitle.setOnClickListener {
 
-            val task = realm.where(Task::class.java).equalTo("deadline", itemDeadline).findFirst()
+            val task =
+                realm.where(Task::class.java).equalTo("deadline", itemDeadline).findFirst()
 
 
             val preview = Intent(applicationContext, TaskActivity::class.java)
