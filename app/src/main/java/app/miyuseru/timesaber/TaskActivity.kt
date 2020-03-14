@@ -43,7 +43,7 @@ class TaskActivity : AppCompatActivity() {
         titleText.setText(titletext)
         contentText.setText(contenttext)
         deadlineButton.setText(deadline)
-        levelView.setText(level)
+        //levelView.setText(level)
 
 
     }

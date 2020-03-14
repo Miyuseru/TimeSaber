@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradation"
     tools:context=".TaskActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/textview_stroke"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,10 +26,9 @@
             android:id="@+id/titleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/textview_stroke"
             android:ems="10"
             android:fontFamily="sans-serif-black"
-            android:hint="タスク名"
+            android:hint="TaskTitle"
             android:inputType="textPersonName"
             android:padding="5dp"
             android:textSize="30sp" />
@@ -38,22 +38,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_stroke"
-            android:text="----/--/--" />
+            android:hint="DeadLine" />
 
         <Spinner
             android:id="@+id/levelSpinner"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/textview_stroke"
             android:entries="@array/list"
             android:gravity="center"
             android:spinnerMode="dialog" />
-
-        <TextView
-            android:id="@+id/levelView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
 
         <EditText
             android:id="@+id/contentText"
@@ -67,21 +60,6 @@
             android:inputType="textPersonName"
             android:padding="5dp"
             android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_stroke"
-            android:text="進捗" />
-
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_stroke"
-            android:padding="20dp"
-            android:scrollbarSize="100dp" />
 
     </LinearLayout>
 

@@ -1,12 +1,10 @@
 package app.miyuseru.timesaber
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
@@ -15,7 +13,6 @@ import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.stream.IntStream.range
 
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
@@ -37,6 +34,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         behavior = BottomSheetBehavior.from(bottom_sheet) as LockableBottomSheetBehavior<*>
         behavior.locked = true
+
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         button.setOnClickListener {
             startActivity(Intent(applicationContext, CreateActivity::class.java))
@@ -108,7 +107,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             return realm.where(Task::class.java).findAll().sort("deadline", Sort.ASCENDING)
         }
 
-        @RequiresApi(Build.VERSION_CODES.N)
+
         fun isDateInRange(input: String): Boolean {
             return SimpleDateFormat("yyyy/MM/dd").let {
                 // 年月日だけ取り出す
@@ -118,14 +117,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
                 }
 
-                val daytask: String = task.deadline
-                for (task in readAll()) {
-                    if (daytask in range) {
-                        taskTitle.text = title.toString()
-                    } else {
-                        taskTitle.text = ""
-                    }
-                }
+//                val daytask: String = task.deadline
+//                for (task in readAll()) {
+//                    if (daytask in range()) {
+//                        taskTitle.text = title.toString()
+//                    } else {
+//                        taskTitle.text = ""
+//                    }
+//                }
 
 
                 // 指定範囲を作る(今日の日付から締め切り)
