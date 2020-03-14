@@ -1,11 +1,13 @@
 package app.miyuseru.timesaber
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.TextView
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
@@ -80,15 +82,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     }
 
-    fun dayTaskText() {
+    fun dayTaskImage() {
 
-        val taskcell = realm.where(R.layout.calendar_cell)
-        val daytasktext = TextView(this)
 
-        daytasktext.text = title.toString()
-        daytasktext.textSize = 30F
+        //val taskcell = R.layout.calendar_cell
+        val taskcell = LinearLayout(this)
+        setContentView(linearLayout)
+//
+//        val daytaskImageView: ImageView =setImageResource(R.drawable.)
 
-        taskcell.addView(daytasktext)
+        val imageView = findViewById<ImageView>(R.drawable.bar1)
+        imageView.setImageResource(R.drawable.bar1)
+
+        //imageView.setImageResource(R.drawable.)
+        taskcell.addView(imageView)
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
