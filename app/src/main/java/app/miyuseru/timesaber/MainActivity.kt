@@ -139,16 +139,31 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 
         fun isDateInRange(input: String): Boolean {
+
+
             return SimpleDateFormat("yyyy/MM/dd").let {
                 // 年月日だけ取り出す
                 val date = SimpleDateFormat("yyyy/MM/dd").let {
                     val parsed = it.parse(input)
                     it.format(parsed)
-
                 }
 
+                // タスクの作成日
+                // タスクの締め切り日
+                // その中に入っているのか入っていないのか
+                // input : タップした日付
 
-                val range = it.parse(date)..it.parse("deadline")
+                // タスク全取得 : tasks
+                // タスク1つ分 : task
+
+                // TODO
+                // 範囲内にあるのかどうかを判定する
+                // あれば、"BottomSheet"タイトルを表示
+                // Log.dで表示できるのを目標
+                
+                // クリックしたときに、タスクがログでとれればOK
+
+                val range = it.parse(task.createdAt)..it.parse(task.deadline)
 //                val daytask: String = task
 //                for (task in readAll()) {
 //                    if (daytask in range()) {
@@ -158,11 +173,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 //                    }
 //                }
 
-
                 // 指定範囲を作る(今日の日付から締め切り)
                 // 含まれているかを確認する
                 range.contains(it.parse(input))
-
 
             }
 //            println(isDateInRange("true")) // true
