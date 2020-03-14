@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.realm.Realm
 import io.realm.RealmResults
+import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -15,26 +17,32 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
-
     private val realm: Realm by lazy {
         Realm.getDefaultInstance()
     }
+
+    private val mCalendarAdapter = CalendarAdapter(this)
+
     private var dateArray: List<Date> = ArrayList()
     var mDateManager: DateManager = DateManager()
-    val mCalendarAdapter = CalendarAdapter(this)
+
+    private lateinit var behavior: LockableBottomSheetBehavior<*>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        behavior = BottomSheetBehavior.from(bottom_sheet) as LockableBottomSheetBehavior<*>
+        behavior.locked = true
+
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
+
         button.setOnClickListener {
             startActivity(Intent(applicationContext, CreateActivity::class.java))
         }
 
-
-
         prevButton.setOnClickListener {
-            mCalendarAdapter.prevMonth()
+            mCalendarAdapter.run { prevMonth() }
             titleText.text = mCalendarAdapter.getTitle()
         }
 
@@ -43,71 +51,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             titleText.text = mCalendarAdapter.getTitle()
         }
 
-
         calendarGridView.adapter = mCalendarAdapter
         titleText.text = mCalendarAdapter.getTitle()
 
 
 
-        calendarGridView.setOnItemClickListener() { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
 
-            //
-//                view, year, month, dayOfMonth ->
-//
-//            val date =
-//                "$year/" + String.format(
-//                    "%02d",
-//                    month + 1
-//                ) + "/" + String.format("%02d", dayOfMonth)
-//            "$year/${month + 1}/$dayOfMonth"
-//
+        calendarGridView.onItemClickListener = this
+        //   dayTaskImage()
 
-
-            //DateManagerから日付を取得
-            //押した日付とdeadlineが一致するタスクを取得してタスクアクティビティへ表示
-//
-//            var mDateManager: DateManager = DateManager()
-//            val date = mDateManager.getDays()!!
-
-
-            //  Log.d("date", date)
-
-            //アイテムを見つける item→dete=deadline
-
-            // 該当アイテムの取得
-            val task = realm
-                .where(Task::class.java)
-                // .equalTo("deadline", date)
-                .findFirst()
-
-            task?.let {
-                Log.d("task", it.deadline)
-            }
-            Log.d("task content", task.toString())
-
-//            val item = date.equals(Task::deadline)
-
-            val preview = Intent(applicationContext, TaskActivity::class.java)
-//
-//            //itemの
-            if (task != null) {
-                preview.putExtra("Title", task.Title)
-            }
-            if (task != null) {
-                preview.putExtra("content", task.content)
-            }
-            if (task != null) {
-                preview.putExtra("deadline", task.deadline)
-            }
-            if (task != null) {
-                preview.putExtra("level", task.level)
-            }
-
-            startActivity(preview)
-//            Log.d("click", "click")
-        }
-
-        calendarGridView.setOnItemClickListener(this)
+//        taskTitle.setOnClickListener {
+        //ここに処理書く
+//        }
 
     }
 
@@ -121,27 +76,238 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             Log.d("task.deadline", result.deadline)
         }
 
+
     }
-//    fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
+
+//    fun dayTaskImage() {
 //
-//        if (mDateManager.isCurrentMonth(dateArray[position])) {
 //
-//            if (convertView != null) {
+//        //val taskcell = R.layout.calendar_cell
+//        // XMLにLinearLayoutのcontainerを作成しておく
+//        // 要変更
+////        val taskcell = LinearLayout(this)
+////
+////        val daytaskImageView: ImageView =setImageResource(R.drawable.)
 //
-//            }
-//        } else {
-//            if (convertView != null) {
+//        val imageView = ImageView(this)
+//        // 画像のサイズ周りの記述
+//        // https://akira-watson.com/android/button-hardcoding.html
 //
-//            }
-//        }
-//    }
+//        imageView.layoutParams =
+//            LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//            )
+//
+//        imageView.setImageResource(R.drawable.bar1)
+//
+//        //imageView.setImageResource(R.drawable.)
+//        container.addView(imageView)
+    //}
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         Log.d("position", position.toString())
-        val dateFormat = SimpleDateFormat("M", Locale.JAPAN)
-        Log.d("month", dateFormat.format(mCalendarAdapter.getDayOfWeek(position)))
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.JAPAN)
+        Log.d("data", dateFormat.format(mCalendarAdapter.getDayOfWeek(position)))
+        val itemDeadline = dateFormat.format(mCalendarAdapter.getDayOfWeek(position))
+
+        // ボタンクリックによって、Expand・Collapseを制御する
+        when (behavior.state) {
+            BottomSheetBehavior.STATE_COLLAPSED -> {
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+            BottomSheetBehavior.STATE_HIDDEN -> {
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
+
+        val task = realm.where(Task::class.java).equalTo("deadline", itemDeadline).findFirst()
+
+        val title = task?.title
+
+        if (task != null) {
+            taskTitle.text = title.toString()
+        } else {
+            taskTitle.text = ""
+        }
+
+        fun readAll(): RealmResults<Task> {
+            return realm.where(Task::class.java).findAll().sort("deadline", Sort.ASCENDING)
+        }
+
+
+        fun isDateInRange(input: String): Boolean {
+
+
+            return SimpleDateFormat("yyyy/MM/dd").let {
+                // 年月日だけ取り出す
+                val date = SimpleDateFormat("yyyy/MM/dd").let {
+                    val parsed = it.parse(input)
+                    it.format(parsed)
+                }
+
+                // タスクの作成日
+                // タスクの締め切り日
+                // その中に入っているのか入っていないのか
+                // input : タップした日付
+
+                // タスク全取得 : tasks
+                // タスク1つ分 : task
+
+                // TODO
+                // 範囲内にあるのかどうかを判定する
+                // あれば、"BottomSheet"タイトルを表示
+                // Log.dで表示できるのを目標
+
+                // クリックしたときに、タスクがログでとれればOK
+                val tasks =
+                    realm.where(Task::class.java)
+
+
+                val range = it.parse(task?.createdAt.toString())..it.parse(task?.deadline)
+                val daytask: String = task.title
+                for (task in readAll()) {
+                    if (tasks in range) {
+                        taskTitle.text = title.toString()
+                        Log.d("title", task.title)
+                    } else {
+                        taskTitle.text = ""
+                    }
+                }
+
+                // 指定範囲を作る(今日の日付から締め切り)
+                // 含まれているかを確認する
+                range.contains(it.parse(input))
+
+            }
+            println(isDateInRange("true")) // true
+            println(isDateInRange("false")) // false
+
+            //dateFormatでクリックした日付取得
+            //今持ってるtaskとの照合
+
+
+        }
+
+
+        //taskとitemDeadlineの値を使いたかったのでここに書いてみた
+
+        taskTitle.setOnClickListener {
+
+            val task =
+                realm.where(Task::class.java).equalTo("deadline", itemDeadline).findFirst()
+
+
+            val preview = Intent(applicationContext, TaskActivity::class.java)
+
+            if (task != null) {
+                preview.putExtra("Title", task.title)
+            }
+            if (task != null) {
+                preview.putExtra("content", task.content)
+            }
+            if (task != null) {
+                preview.putExtra("deadline", task.deadline)
+            }
+            if (task != null) {
+                preview.putExtra("level", task.level)
+            }
+//
+            startActivity(preview)
+
+
+        }
+
+
     }
+
+
+//    val taskTitleView: TextView = findViewById(R.id.taskTitle)
+
+//    private fun taskTitleView.setOnItemClickListener() {
+//
+//        val preview = Intent(TaskActivity::class.java)
+//
+//        if (task != null) {
+//            preview.putExtra("Title", task.Title)
+//        }
+//        if (task != null) {
+//            preview.putExtra("content", task.content)
+//        }
+//        if (task != null) {
+//            preview.putExtra("deadline", task.deadline)
+//        }
+//        if (task != null) {
+//            preview.putExtra("level", task.level)
+//        }
+//
+//        //startActivity(preview)
+//        Log.d("click", "click")
+//    }
+
 
 }
 
 
+//calendarGridView.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+//            var mDateManager: DateManager = DateManager()
+//            val date = mDateManager.getDays()!!
+//
+//            //
+//                view, year, month, dayOfMonth ->
+//
+//            val date =
+//                "$year/" + String.format(
+//                    "%02d",
+//                    month + 1
+//                ) + "/" + String.format("%02d", dayOfMonth)
+//            "$year/${month + 1}/$dayOfMonth"
+//
+//
+//
+//            //DateManagerから日付を取得
+//            //押した日付とdeadlineが一致するタスクを取得してタスクアクティビティへ表示
+//
+//
+//            //  Log.d("date", date)
+//
+//            //アイテムを見つける item→dete=deadline
+//
+//            // 該当アイテムの取得
+//            val task = realm
+//                .where(Task::class.java)
+//                 .equalTo("deadline", date)
+//                .findFirst()
+//
+//            task?.let {
+//                Log.d("task", it.deadline)
+//            }
+//            Log.d("task content", task.toString())
+//
+//            val item = date.equals(Task::deadline)
+//
+//            //  val preview = Intent(applicationContext, TaskActivity::class.java)
+//
+//            //itemの
+//            if (task != null) {
+//                preview.putExtra("Title", task.Title)
+//            }
+//            if (task != null) {
+//                preview.putExtra("content", task.content)
+//            }
+//            if (task != null) {
+//                preview.putExtra("deadline", task.deadline)
+//            }
+//            if (task != null) {
+//                preview.putExtra("level", task.level)
+//            }
+//
+//            //startActivity(preview)
+//            Log.d("click", "click")
+//        }
+
+
+//やること
+//デザイン
+//タスクの保存
+//タスクの割り振り

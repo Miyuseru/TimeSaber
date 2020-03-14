@@ -2,12 +2,13 @@ package app.miyuseru.timesaber
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.BaseAdapter
-import android.widget.TextView
+import android.widget.*
+import io.realm.Realm
+import io.realm.Sort
 import kotlinx.android.synthetic.main.calendar_cell.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,7 +20,11 @@ class CalendarAdapter(var context: Context) : BaseAdapter() {
 
     class ViewHolder(view: View) {
         var dateText: TextView = view.dateText
+        var imageView: ImageView = view.image_view
+    }
 
+    private val realm: Realm by lazy {
+        Realm.getDefaultInstance()
     }
 
     init {
@@ -63,11 +68,37 @@ class CalendarAdapter(var context: Context) : BaseAdapter() {
             1 -> Color.RED
             7 -> Color.BLUE
             else -> Color.BLACK
-
         }
         (viewHolder as ViewHolder).dateText.setTextColor(colorId)
+
+        // ここでGridView毎のレイアウトを作成しているので，ここで画像の挿入を行う．
+        // TODO : タスクがあるのかどうか判定して、あるのであれば画像の挿入を行う．
+        // 範囲内にあれば、表示できるように
+
+        // 画像のサイズ周りの記述
+        // https://akira-watson.com/android/button-hardcoding.html
+        val task =
+            realm.where(Task::class.java).findAll().sort("deadline", Sort.ASCENDING)
+
+        if (task != null) {
+
+            (viewHolder as ViewHolder).imageView.layoutParams =
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+
+            Log.d("position", position.toString())
+
+            (viewHolder as ViewHolder).imageView.setImageResource(R.drawable.bar1)
+        }
+
+        //imageView.setImageResource(R.drawable.)
+//        (convertView as LinearLayout).addView(viewHolder)
+
         return convertView
     }
+
 
     override fun getItemId(position: Int): Long {
         return 0
